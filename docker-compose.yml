@@ -3,6 +3,7 @@ version: '3.8'
 services:
   db:
     image: postgres:alpine
+    restart: always
     env_file:
       - .env
     volumes:
@@ -12,8 +13,11 @@ services:
   app:
     build: .
     image: sadko-dostavka
+    restart: always
     env_file:
       - .env
+    volumes:
+      - media_data:/app/sadko/media
     networks:
       - backend
     ports:
@@ -25,3 +29,4 @@ networks:
   backend:
 volumes:
   db_data:
+  media_data:
