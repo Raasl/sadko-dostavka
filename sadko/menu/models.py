@@ -77,7 +77,15 @@ class Dish(models.Model):
         verbose_name='Цена',
         validators=[MaxValueValidator(
             limit_value=9999,
-            message=f'Максимальная цена 9999'
+            message=f'Максимальная цена 9999р.'
+        )]
+    )
+
+    weight = models.PositiveIntegerField(
+        verbose_name='Вес',
+        validators=[MaxValueValidator(
+            limit_value=9999,
+            message=f'Максимальный вес 9999г.'
         )]
     )
 

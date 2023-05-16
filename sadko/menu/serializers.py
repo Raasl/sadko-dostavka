@@ -20,8 +20,12 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class DishSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True)
+    images = serializers.SerializerMethodField()
 
     class Meta:
         model = Dish
-        fields = ('title', 'description', 'price', 'images')
+        fields = ('id', 'title', 'description', 'price', 'weight', 'images')
+
+    def get_images(self, obj):
+        images = obj.images.filter(is_active=True)
+        return ImageSerializer(images, many=True).data

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:alpine
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - backend
+  app:
+    build: .
+    image: sadko-dostavka
+    env_file:
+      - .env
+    networks:
+      - backend
+    ports:
+      - 80:8000
+    depends_on:
+      - db
+    entrypoint: sh /app/entrypoint.sh
+networks:
+  backend:
+volumes:
+  db_data:

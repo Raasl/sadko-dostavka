@@ -47,7 +47,7 @@ class MyDishAdminForm(forms.ModelForm):
 class DishAdmin(SortableAdminMixin, admin.ModelAdmin):
 
     list_display = ('title', 'slug', 'category', 'show_price',
-                    'is_active', 'position')
+                    'show_weight', 'is_active', 'position')
     list_display_links = ('title', 'slug')
     list_editable = ('is_active',)
     list_filter = ('category', 'is_active')
@@ -61,6 +61,10 @@ class DishAdmin(SortableAdminMixin, admin.ModelAdmin):
     @admin.display(description='Цена')
     def show_price(self, obj):
         return str(obj.price) + ' ₽'
+    
+    @admin.display(description='Вес')
+    def show_weight(self, obj):
+        return str(obj.weight) + ' г.'
 
 
 @admin.register(Category)
