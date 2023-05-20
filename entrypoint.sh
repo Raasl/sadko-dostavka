@@ -9,8 +9,8 @@ until nc -z -v -w30 $POSTGRES_HOST $POSTGRES_PORT; do
 
 
 if ! python manage.py showmigrations --no-color | grep "\[ \]"; then
-  exec python manage.py runserver 0.0.0.0:8000
+  exec gunicorn sadko.wsgi:application -b 0.0.0.0:8000
 else
   python manage.py migrate
-  exec python manage.py runserver 0.0.0.0:8000
+  exec gunicorn sadko.wsgi:application -b 0.0.0.0:8000
 fi

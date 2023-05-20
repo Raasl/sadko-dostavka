@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
   db:
@@ -18,15 +18,27 @@ services:
       - .env
     volumes:
       - media_data:/app/sadko/media
+      - static_data:/app/sadko/static
     networks:
       - backend
-    ports:
-      - 80:8000
     depends_on:
       - db
     entrypoint: sh /app/entrypoint.sh
+  server:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - media_data:/app/sadko/media
+      - static_data:/app/sadko/static
+    networks:
+      - backend
+    depends_on:
+      - app
 networks:
   backend:
 volumes:
   db_data:
   media_data:
+  static_data:
